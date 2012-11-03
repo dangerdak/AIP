@@ -1,0 +1,190 @@
+Astronomical Image Processing: Galaxy Count from a KPNO Deep Optical Image
+Dakshina Scott
+Somethingth November 2012
+
+Abstract
+We conduct galaxy count on a deep optical image taken using a Sloan r-band filter on the 4m telescope at KPNO. This is done to test the relationship between galaxy number counts and magnitude, as predicted by the equation for an Euclidean universe i.e. .
+MatLab is used to write a program which detects galaxies within the image and catalogues their brightnesses. A plot of galaxy counts against magnitude is found to differ significantly from similar surveys, and from the above equation. The results fit a quadratic curve much better than the predicted straight line, and the steepest gradient is found at the lower magnitudes as 0.35 plus/minus 0.02 up to magnitude 13. This is thought to be due to incompleteness of the image, rather than evidence of strong galaxy evolution or about the structure of the universe.
+
+Background & Introduction
+Galaxy surveys allow us to probe the history and structure of the universe. Number counts and photometric and spectroscopic analysis from such surveys have transformed our understanding of the universe – when in 1917 Einstein's theory of general relativity suggested that the universe must be either expanding or contracting, he brushed the idea aside. It was only after Silpher and Hubble produced data from galaxy surveys relating redshift and distance that the evidence in support of an expanding universe became impossible to ignore[reference – intro to sci of cos].
+
+Here we look at a deep optical image taken using a Sloan r-band filter (central wavelength 620nm) using the CCD mosaic camera at Kitt Peak National Observatory. The aim is to find the number counts of galaxies at different magnitudes, and compare our results to the prediction for an Euclidean universe of galaxies, with no evolution, described by equation (number).
+We also compare our counts to similar surveys in order to evaluate our cataloguing procedure.
+
+By assuming a Euclidean universe of uniformly distributed galaxies, with a given distribution of luminosities, a simple relationship between magnitude and number of galaxies brighter than that magnitude can be derived. For a given luminosity distribution;
+ 
+and so,	eq.(1)
+
+and for a given density in Euclidean space;
+
+.	eq.(2)
+
+Substituting equation (1) into equation (2) we get;
+
+	eq.(3)
+
+where N(f) is the number of sources with flux greater than f.
+Using
+
+
+
+which is the standard equation relating the difference in magnitude between two objects and the flux received from them, it can be seen that;
+
+
+	
+rearranging for f;
+
+		eq.(4)
+
+and substituting eq.(4) into eq.(3);
+
+or
+
+where k is a constant of proportionality. Finally, taking log of both sides;
+
+		eq(5)
+
+where N(m) is the number of sources brighter than magnitude m, and .
+
+Based on this result, the difference in the number of galaxies between each magnitude is given by
+
+
+
+where m is the lower magnitude.
+
+However, the Friedmann equation tells us that the curvature of the universe is dependent on it's density – it's not necessarily Euclidean, so there may be a distance beyond which the structure of the universe influences galaxy counts.
+
+Sandage (1961) found that galaxy counts are unlikely to reveal information about the structure of the universe because the differences between flat, open and closed models are too small compared to known variations in galaxy distribution. Advances have since been made in astronomical image acquisition, with CCDs allowing much greater quantum efficiency than photographic plates. Eisenstein et al (2001) found that the Sloan Sky Digital Survey, which uses CCDs, would be well suited to studies of large-scale structure, but that will be making use of spectroscopic data which is unavailable here.
+
+One of the key results looked at in galaxy surveys (eg Maddox et al. 1990) is how the data deviates from the counts expected by a no-evolution model of galaxies – the further away the galaxy, the further in the past we are looking – so say for example galaxies were brighter/dimmer or more/less numerous, then distant galaxies may give us results inconsistent with equation (number).
+
+Thus it is possible that comparing number counts against magnitude with the prediction of equation (number) will show evidence of galaxy evolution, but it is unlikely that effects of large-scale structure will be seen.
+
+
+
+Method
+Although the image had been processed to adjust for certain effects before it was received, there were still some unwanted effects remaining. Image processing and analysis is done in Matlab, with the image processing toolbox installed.
+
+Noise Removal
+The image consists of a number of sub-exposures, combined to create one image. This smooths out random fluctuating noise , as inconsistent sources will be faded in the final image.
+However, it can be seen that these sub-exposures don't overlap exactly – as a result there are blank areas in the corners of the image, and around the edges a sharp increase in noise is visible (see figure). 
+Figure – red lines highlight sharp increases in noise where sub-exposures don't overlap. The top right corner is blank.
+The image was cropped before analysis to remove the noisiest areas.
+
+Saturated Pixels
+'Blooming' occurs where pixels in the CCD are saturated and overflow to nearby pixels, something which tends to happen mostly in the vertical and horizontal directions, as can be seen in figure.
+Figure - A bright central source which has 'bloomed' vertically across the image. There are also smaller sources showing the same effect to a lesser extent. Red circles indicate sources which were blacked out prior to analysis. The lines of bloom were also blacked out.
+
+The maximum number of electrons each pixel of the CCD can hold is 65,535. For values approaching this the relationship between number of photons received and the number of electrons stored moves further and further from linearity.
+By using multiple shorter exposures any given CCD pixel receives fewer photons, and the number of sources bright enough to cause overflowing is reduced.
+However this effect is still visible in some sources (highlighted in figure) . These sources and their bloom are blacked out before analysis.
+
+A filter is also applied, so that any remaining sources with a maximum pixel value exceeding 50,000 counts are excluded from the survey.
+
+On this fully prepared image, two different algorithms for source detection and photometry are applied, each with different limitations. One method uses a fixed aperture, while the other uses the shape and size of each individual source to analyse the correct areas of the image. Both methods are dependent upon finding a suitable value for the source/background threshold.
+
+Finding an Upper Limit for Background Brightness
+In order to analyse each source in the image, some criterion must be used to determine how high a photon count must be in order for it to be considered to be coming from a source, rather than a background fluctuation.
+The image is composed mostly of background, with a scattering of sources of varying brightness. Thus finding the mode pixel intensity value of the image would be one way to estimate the background value – doing so produces a value of 3421 counts. However, as the background isn't a constant value, it's clear that much of the background will have values higher than this, and some upper limit of counts must be chosen as the threshold.
+Inspecting the distribution of photon counts within the image shows that the frequency of counts per pixel in the region of this modal value is many orders of magnitude greater than that for other values found in the image, and the distribution within this area is approximately Gaussian (see figure). Thus by finding the mean value within just this bell-shaped peak, and the standard deviation, a threshold value is chosen as three standard deviations above the mean (at a value of 3461 counts).
+
+Figure – Histogram showing a Gaussian-like distribution of pixel counts in the region of the global background.
+
+Fixed Aperture
+Finding Sources
+Initially sources are identified and analysed using a fixed aperture size. The maximum pixel value in the image is found, and the surrounding area analysed. This area is then blacked out so that a search for the new maximum will find the second-brightest source from the original image, which is then analysed, and so on. This continues looping around until the maximum remaining value equals the threshold value.
+
+A number of different aperture sizes are tried in an attempt to find a compromise between a very large aperture and a very small aperture – any source larger than the chosen aperture size will end up with a lower count attributed to it than it should have, reduced even further when the 'local background' (which in this case will at least partially be obscured by the source) is subtracted. Also, the smaller the aperture the more opportunity there is for each source to be counted as multiple sources (although measures are taken within the code to reduce this – see figure). On the other hand, sources which are smaller than the aperture will have a reduced mean intensity value, although the total number of counts should be about right once the local background is subtracted. 
+Figure – black circles represent areas that have been treated as sources by the detection program. (a) shows those detected before code was added telling the program to ignore aperture areas which already contained a zero value. (b) shows areas of source detected after this section of code was added. As can be seen, there are some sources which aren't contained by the aperture. 
+
+As the aperture size is increased, more than one source is likely to be contained within a single aperture. Thus an appropriate size would be a compromise. The mean value of the source areas is 51 pixels, suggesting an aperture radius of 4 pixels may be a reasonable compromise. However, as some of the sources are much larger than this, the number counts will be skewed – if lots of apertures fit inside one large source, this will give rise to a jump in the frequency distribution in the range of brightnesses contained in the source.
+
+For each source, an aperture of recommended (labscript) radius 6 pixels is used as a starting point (~3 arc seconds – do calculation?) [reference (arc seconds per pixel)], centred on the maximum value. A larger-radius annular aperture is then placed around this to calculate the background level local to each source, which is then subtracted from the source aperture value. 
+Different radii are compared, including a radius of 4 pixels.
+
+Variable Aperture Method
+Two methods were developed using a variable aperture size to analyse the sources.
+Of the two, the first has some significant issues – in cases when the multiple sources are within a few pixels of each other, it's possible that the same source will be analysed multiple times, or it may be skipped altogether. The second version achieves more reliable results. By making better use of inbuilt Matlab functions, the new program was much more effective at quickly detecting and analysing sources (it runs in about 3 seconds). It turns out that both methods appear to produce quite similar results, but only the latter is discussed from here on, as it most accurately represents the data available.
+
+'Thresholding' is used to segment the image based on pixel counts – the image is converted to a binary image, in which any pixels with a count higher than the source/background threshold (as determined above) become ones, the rest zeros. By assigning distinct labels to each separate region of ones, Matlab is then able to run through them sequentially, analysing each corresponding source & local background as it goes.
+An issue with this method is that sometimes part of the source is 'disconnected' from the main section (as can be seen in the top left and bottom right sides of the binary image in figure).
+Figure – a section of the image in grayscale, and the same section in binary, showing that a good approximation of the source shape and area is obtained. However, notice the small white areas near sources 1 and 2. These will be counted as separate sources, regardless of whether they are legitimate sources or disconnections from nearby sources.
+
+These disconnections will lead to an increase in counts of faint sources.
+
+Another issue arises with finding the local background for each source. To do so an area surrounding each source is looked at. If multiple sources are close together and their 'local background areas' overlap then the same local background, averaged over the regions local to each source, is used for all of these sources. (image to illustrate?)
+
+Despite this, the variable aperture method is the preferred method as it always analyses all of the sources in the image (so long as the threshold allows them all to be detected), and unlike the fixed aperture it analyses the actual shape and area of each source (again limited by the accuracy of the threshold used).
+
+Results & Analysis
+First the results of the fixed aperture method are looked at, with different aperture sizes compared. Then the variable aperture method is looked at in more detail and finally the two sets of results are briefly compared.
+The raw photon counts are converted to magnitudes using the equation,
+
+
+where ZPinst is the instrumental zero point, as determined in the AB magnitude system (where a flux density of 3631 Jy is defined to be zero magnitudes). 
+According to the fits header for the image the maximum reliable value for photon counts per CCD pixel is 36000 – for a one-pixel source this translates to a magnitude of 14. Although we have excluded single-pixel sources, this suggests that for magnitude 14 and brighter, more sources will have unreliable results, as determined by the limitations of the equipment used. This should be kept in mind when looking at the results.
+
+Fixed Aperture
+Number count against magnitude is plotted for various aperture radii. The 4-pixel radius appears to produce the straightest graph. This could imply that the 'wobbles' in the other graphs are due to the limits of a fixed aperture rather than a physical phenomenon. 
+
+
+
+Figure? shows that an aperture radius of 4 pixels has the 'straightest' graph. As the radius diverges from this the data points become more and more 'wobbly'. In all cases, just below magnitude 14 there is a dip in the graph. 
+
+Variable Aperture
+A variable aperture method is able to much more accurately collect data on each source in the image.
+
+Figure – the errors shown are the errors in the number counts of galaxies following a poisson distribution. The largest error in the x-axis is 0.023. This is a combination of the calibration error on the apparatus used and the error in photon counts following a poisson distribution The solid line shows a quadratic best fit curve. The dashed line shows a gradient of 0.6. The errors in magnitude aren't shown as they are too small to show up on the graph (see appendix for more details).
+
+This graph shows much more curvature than the fixed aperture graphs. This is expected as galaxies become gradually more difficult to detect at higher magnitudes, so the gradient represents the gradual increase of incompleteness in the survey.
+Excluding the sources which contain a pixel value of over 36000 (the maximum good data value in the fits header) has very little effect – only 14 sources are excluded and the resulting graph looks the same.
+
+The gradient of the graph up to magnitude 13 is 0.34 plus/minus 0.02. As can be seen by the curvature of the graph this gradually decreases, reaching about 0.1 between 18 and 20, and it is finally zero (to one decimal place) between 21 and 23. 
+On the other hand a quadratic line of best fit, as shown in the figure, fits the data very closely. 
+
+Even the maximum gradient of about 0.4, at the very start of the graph is much lower than the gradient of 0.6 predicted by equation (number). A number of factors will likely have combined to result in this low value. If the survey was complete, there would be an increase in the galaxy counts at higher magnitudes.
+
+
+Yasuda et al (2001) present galaxy surveys with very high levels of completeness, in a variety of bands including r-band. At lower magnitudes, where effects of evolution and large-scale structure aren't significant, their number counts fit equation (number) well. 
+This suggests that our data may suffer from incompleteness – and that this effect worsens at increasing faintnesses.
+The gently decreasing gradient fits with this suggestion, as incompleteness would be expected to  increase gradually with magnitude.
+Removing the brightest sources (which exhibited a blooming effect) also may have affected the gradient – the brightest sources may have decreased the starting value on x-axis.
+
+Conclusion
+As discussed the variable aperture is believed to be much more reliable and accurate in terms of detecting and collecting data on each source in the image.
+While the program using a fixed aperture gives results that are closer to those predicted by theory and found by other surveys, it is suspected that this is in fact misleading – that perhaps the unquantified systematic errors in the fixed aperture actually caused the data to appear closer to the predictions than the true data should be.
+This fits the results found for the variable aperture, as it suggests high levels of incompleteness starting even at the brighter magnitudes.
+Using a larger number of shorter exposures would improve the results for the brightest sources as less would need to be blacked out before analysis. However, this would reduce completeness at the fainter magnitudes.
+Alternatively using a better CCD (e.g. with a higher bit counter) would vastly improve the results – long exposure times could be used allowing fainter sources to be detected more reliably, without causing so many pixels to saturate and bloom (so the results would also be more reliable for brighter sources).
+Another issue is that the detecting programs can't distinguish between a) stars and galaxies, and b) two overlapping sources. Both issues can be addressed by looking at more detailed photometry for each source – for example, Yasuda et al (2001) use a program called 'PHOTO' which looks for multiple peaks in each object, and 'deblends' them into multiple 'child' objects. This program also able to determine whether a source is likely to be a star or a galaxy based on its surface brightness profile (as described by Blanton et al, 2001).
+
+References
+Clements, D. L., 2012, Computational Image Processing: A Deep Galaxy Survey [Lab script], 2012 ed., Imperial College London
+
+Raine, D. J., Thomas, E. G., 2002, An Introduction to The Science of Cosmology, 2nd ed., Bristol: Institute of Physics Publishing, p. 60
+
+Peacock, J. A., 1999, Cosmological Physics, Cambridge: Cambridge University Press, p. 73
+
+Maddox, S. J. et al, 1990, Galaxy Evolution at Low Redshift, Mon. Not. R. astr. Soc., 247, pp.1-5
+
+Yasuda, N., et al. 2001, Galaxy Number Counts From The Sloan Digital Sky Survey Commissioning Data, AJ, 122, pp. 1104-1124
+
+Eisenstein, D. J., et al. 2001, Spectroscopic Target Selection For The Sloan Digital Sky Survey: The Luminous Red Galaxy Sample, AJ, 122, pp. 2267-2280
+
+Blanton, M. R., et al. 2001, The Luminosity Function Of Galaxies In SDSS Commissioning Data, AJ, 121, pp. 2358-2380
+
+
+
+
+Appendix
+Calculating Errors in Magnitude
+The errors in magnitude are excluded from the graphs as they are very small – and in fact, none are large enough to affect the number of galaxies in each magnitude bin. 
+They are approximated by treating the photon counts for each galaxy as a poisson distribution, with the error as the square root of the counts. These errors in counts are then converted into errors in magnitude, and finally added in quadrature with the zeropoint error included in the fits header file, to give the overall errors in magnitude for each galaxy. The largest error is 0.0227. As we are working with magnitude bins of 0.5, it's meaningless to talk about errors to 4 decimal places. To two decimal places, all of the errors are equal to 0.02, the value given for the zeropoint error. 
+Figure – Distribution of errors with magnitude shows that the errors are greatest for the faintest galaxies, but all of the errors are very small.
+
+
+
+
+
+
