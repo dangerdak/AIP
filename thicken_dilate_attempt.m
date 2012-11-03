@@ -1,3 +1,4 @@
+oiuygoiyugopiyugoljh
 % for thicken/dilate attempt - to remove isolated pixels
 % grayimim=mat2gray(croppedim);
 % binthresh=(thresh/(max(croppedim(:)));
