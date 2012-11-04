@@ -17,19 +17,24 @@
 \usepackage{amsmath}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \begin{document}
+\title{Astronomical Image Processing: Galaxy Count from a KPNO Deep 
+Optical Image}
+\date{\today\\[4cm]}
+\author{Dakshina Scott}
+\maketitle
+%\begin{document}
 
-\begin{titlepage}
-\begin{center}
+%\begin{titlepage}
+%\begin{center}
 
-Astronomical Image Processing: Galaxy Count from a KPNO Deep Optical 
-Image \\[8cm]
-Dakshina Scott \\[4cm]
-5th November 2012 \\
+%Astronomical Image Processing: Galaxy Count from a KPNO Deep Optical 
+%Image \\[8cm]
+%Dakshina Scott \\[2cm]
+%5th November 2012 \\
 
-\end{center}
-\end{titlepage}
+%\end{center}
+%\end{titlepage}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -42,12 +47,12 @@ test the relationship between galaxy number counts and magnitude,
 as predicted by the equation \(log_{10} N(m) \propto 0.6m\).
 
 
-Matlab was used to write a program to detect galaxies within the 
+A script was written in Matlab to detect galaxies within the 
 image and catalogue their brightnesses. A plot of galaxy counts 
-against magnitude was found to differ significantly from similar 
-surveys, and from the above equation; the steepest gradient was 
-found at the lower magnitudes as \(0.35 \pm 0.02\) up to magnitude 
-13. This is thought to be due to incompleteness in the image rather 
+against magnitude was found to differ significantly from a similar 
+survey, and from the above equation; the steepest gradient was 
+found at the lower magnitudes to be \(0.35 \pm 0.02\) (from magnitude 
+9.2 to 13). This deviation is thought to be due to incompleteness in the image rather 
 than evidence of strong galaxy evolution or the structure of 
 the universe.
 
@@ -55,7 +60,7 @@ the universe.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\tableofcontents
+%\tableofcontents
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -184,11 +189,11 @@ the image processing toolbox installed.
 \subsection{Noise}
 
 The image consists of a combination of a number of sub-exposures. 
-This smooths out random noise , as inconsistent 
+This smooths out random noise, as inconsistent 
 sources will be faded. It can be seen that these sub-exposures 
 don't overlap exactly - as a result there 
 are blank areas in the corners of the image, and around the edges a 
-sharp increase in noise is visible (see figure~\ref{fig:edges}). 
+sharp increase in noise is visible (figure~\ref{fig:edges}). 
 
 \begin{figure}[htb]
   \centering
@@ -207,7 +212,7 @@ to nearby pixels. This  happens mostly in the vertical
 
 \begin{figure}[htb]
   \centering
-  \includegraphics[width=0.5\textwidth]{mask.png}
+  \includegraphics[width=0.3\textwidth]{mask.png}
   \caption{A bright central source which has 'bloomed' vertically across
  the image. There are also smaller sources showing the same effect to 
 a lesser extent. Red circles indicate sources which were blacked out 
@@ -218,7 +223,7 @@ prior to analysis. The lines of bloom were also blacked out.}
 The maximum number of electrons each pixel of the CCD can hold is 65,535. 
 For values approaching this, the relationship between number of photons 
 received and the number of electrons stored moves further and further 
-from linearity. By using multiple shorter exposures any given CCD pixel 
+from one-to-one. By using multiple shorter exposures any given CCD pixel 
 receives fewer photons, so the number of sources bright enough to cause 
 overflowing is reduced. However this effect is still visible in some areas 
 (highlighted in figure~\ref{fig:mask}). These sources and their bloom were
@@ -237,15 +242,15 @@ to determine how high a photon count must be in order for it to be
 considered to be coming from a source, rather than a background fluctuation.
 The image is composed mostly of background, with a scattering of sources 
 of varying brightness. Thus the mode pixel value in the 
-image gives an estimate of the background value 
-However, as the background isn't a constant value, it's clear that 
+image gives an estimate of the background value.
+However, as the background isn't a constant value it's clear that 
 much of the background will have values higher than this, 
 and some upper limit of counts must be chosen as the threshold.
 Inspecting the distribution of photon counts within the image shows 
 that the frequency of counts per pixel in the region of the modal 
 value is many orders of magnitude greater than that for other 
 values found in the image, and the distribution within this region 
-is approximately Gaussian (see figure~\ref{fig:background}). Thus a 
+is approximately Gaussian (figure~\ref{fig:background}). Thus a 
 threshold value was chosen as three standard deviations above the mean 
 in this region (a value of 3461 counts).
 
@@ -287,7 +292,7 @@ should be about right once the local background has been subtracted.
   \caption{Black circles represent areas that have been treated as 
 sources by the detection program. (a) shows those detected before 
 code was added telling the program to ignore aperture areas which 
-already contained a zero value. (b) shows areas of source detected 
+already contained a zero value. (b) shows sources detected 
 after this section of code was added. As can be seen, there are some 
 sources which aren't contained by the aperture.}
   \label{fig:multisources}
@@ -296,7 +301,7 @@ sources which aren't contained by the aperture.}
 As the aperture size is increased, more than one source is likely 
 to be contained within a single aperture. Thus an appropriate size 
 would be a compromise. The mean source area is 51 pixels, suggesting 
-an aperture radius of 4 pixels (\(pi \times 4^2 \approx 51\))may be a 
+an aperture radius of 4 pixels (\(\pi \times 4^2 \approx 51\))may be a 
 reasonable compromise. However, as some of the sources are much larger 
 than this, the number counts may be skewed - if lots of apertures 
 fit inside one large source, this will give rise to a jump in the 
@@ -332,7 +337,7 @@ right sides of the binary image in figure~\ref{fig:conversion}).
 
 \begin{figure}[htb]
   \centering
-  \includegraphics[width=0.6\textwidth]{conversion.jpg}
+  \includegraphics[width=0.8\textwidth]{conversion.jpg}
   \caption{A section of the image in grayscale, and the same section 
 in binary, showing that a good approximation of the source shape and 
 area is obtained. However, notice the small white areas near sources 
@@ -393,21 +398,24 @@ dip in the graph.}
   \label{fig:fixed}
 \end{figure}
 
+\newpage
 \subsection{Variable Aperture}
 
-The plot for a variable aperture shows much more curvature 
+Using a variable aperture 3404 sources are found in the
+magnitude range 9.3 to 23.6.
+The plot shows much more curvature 
 than the fixed aperture graphs. This is expected as galaxies 
 become gradually more difficult to detect at higher magnitudes, 
-so the gradient represents the gradual increase of 
+so the decreasing gradient represents the gradual increase of 
 incompleteness in the survey. Excluding those sources which 
 contain a pixel value of over 36000 (the maximum good data 
-value in the fits header) has very little 
+value as described by the fits header) has very little 
 effect - only 14 sources are excluded and the resulting graph 
 looks the same.
 
 \begin{figure}[htb]
   \centering
-  \includegraphics[width=0.8\textwidth]{varapfig.png}
+  \includegraphics[width=0.6\textwidth]{varapfig.png}
   \caption{The errors shown are the errors in the number 
 counts of galaxies following a poisson distribution. The solid line
 shows the gradient (0.34 \(\pm\) 0.02) of the plot up to 
@@ -420,8 +428,9 @@ they are too small to show up on the graph
 \end{figure}
 
 
-The gradient of the best fit line for magnitudes up to 13 is 
-0.34 \(\pm\) 0.02. As can be seen by the curvature of the 
+The gradient of the best fit line from the lowest detected 
+magnitude up to 13 is 0.34 \(\pm\) 0.02. 
+As can be seen by the curvature of the 
 graph this gradually decreases, reaching about 0.1 between 
 18 and 20, and it is finally zero (to one decimal place) 
 between 21 and 23. 
