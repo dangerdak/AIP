@@ -45,7 +45,7 @@ as predicted by the equation \(log_{10} N(m) \propto 0.6m\).
 Matlab was used to write a program to detect galaxies within the 
 image and catalogue their brightnesses. A plot of galaxy counts 
 against magnitude was found to differ significantly from similar 
-surveys, and from the above equation. The steepest gradient was 
+surveys, and from the above equation; the steepest gradient was 
 found at the lower magnitudes as \(0.35 \pm 0.02\) up to magnitude 
 13. This is thought to be due to incompleteness in the image rather 
 than evidence of strong galaxy evolution or the structure of 
@@ -70,7 +70,7 @@ idea aside. It was only after Silpher and Hubble produced data from
 galaxy surveys relating redshift and distance that the evidence in 
 support of an expanding universe became impossible to ignore\cite{raine}.
 
-In this experiment we looked at a deep optical image taken using a 
+In this experiment we have looked at a deep optical image taken using a 
 Sloan r-band filter (central wavelength 620nm) using the CCD mosaic 
 camera at Kitt Peak National Observatory. The aim was to find the 
 number counts of galaxies at different magnitudes, and compare our 
@@ -150,13 +150,14 @@ N(m+1) = 4.0N(m).
 
 However, the Friedmann equations tell us that the 
 universe is not necessarily Euclidean; there may be a distance 
-beyond which it's structure influences galaxy counts.
+beyond which its structure influences galaxy counts.
 
 In 1961 Sandage \cite{sandage} found that galaxy counts from the Hale telescope 
 (the world's largest telescope at the time\cite{hale}) were unlikely to 
 reveal information about the structure of the universe because 
-the differences between flat open and closed models are too small compared 
-to known variations in galaxy distribution. 
+the differences between flat, open, and closed models are too small compared 
+to known variations in galaxy distribution. On the other hand it was found 
+that a magnitude-redshift relation may be more revealing. 
 More recently Eisenstein et al (2001)\cite{eisen} also found that the Sloan 
 Sky Digital Survey would be well suited to studies of large-scale structure 
 by making use of spectroscopic data.
@@ -200,7 +201,6 @@ sub-exposures don't overlap. The top right corner is blank.}
 The image was cropped before analysis to remove the noisiest areas.
 
 \subsection{Saturated Pixels}
-
 'Blooming' is when pixels in the CCD are saturated and overflow 
 to nearby pixels. This  happens mostly in the vertical
  and horizontal directions, as seen in figure~\ref{fig:mask}.
@@ -229,11 +229,10 @@ detection and photometry were applied, each with different limitations.
 One method uses a fixed aperture, while the other uses the shape and size of 
 each  source to analyse the correct areas of the image. Both 
 methods are dependent upon finding a suitable value for the 
-source/background threshold.
+source/background threshold. 
 
 \subsection{Finding an Upper Limit for Background Brightness}
-
-In order to analyse each source , some criterion must be used 
+In order to analyse each source, some criterion must be used 
 to determine how high a photon count must be in order for it to be 
 considered to be coming from a source, rather than a background fluctuation.
 The image is composed mostly of background, with a scattering of sources 
@@ -249,6 +248,8 @@ values found in the image, and the distribution within this region
 is approximately Gaussian (see figure~\ref{fig:background}). Thus a 
 threshold value was chosen as three standard deviations above the mean 
 in this region (a value of 3461 counts).
+
+
 
 \begin{figure}[htb]
   \centering
@@ -413,7 +414,7 @@ largest error in the x-axis is 0.023. This is a combination
 of the calibration error on the apparatus used and the error 
 in photon counts following a poisson distribution The solid 
 line shows a quadratic best fit curve. The dashed line shows 
-a gradient of 0.6, the gradient predicted by equation~\ref{nmag}. 
+a gradient of 0.6, the gradient predicted by equation~\ref{eq:nmag}. 
 The errors in magnitude aren't included as 
 they are too small to show up on the graph 
 (see appendix for more details).}
@@ -429,7 +430,7 @@ between 21 and 23.
 
 Even the maximum gradient of about 0.4 at the very start 
 of the graph is much lower than the gradient of 0.6 
-predicted by equation~\ref{nmag}. If the survey was complete, 
+predicted by equation~\ref{eq:nmag}. If the survey was complete, 
 there would be an increase in the galaxy counts at higher magnitudes 
 which would increase the gradient. Removing the brightest 
 sources (which exhibited a blooming effect) also may have 
@@ -440,7 +441,7 @@ Yasuda\cite{yasuda} et al (2001) present galaxy surveys with
 very high levels of completeness, in a variety of bands including 
 r-band. At lower magnitudes, where effects of evolution and 
 large-scale structure are less significant, their number 
-counts fit equation~\ref{nmag} well. This supports the suggestion 
+counts fit equation~\ref{eq:nmag} well. This supports the suggestion 
 that our data may suffer from incompleteness - and that this 
 effect worsens at increasing faintnesses. 
 
@@ -497,7 +498,7 @@ They are approximated by treating the photon counts for each galaxy as a poisson
   \caption{Distribution of errors with magnitude shows that although 
 the errors are greatest for the faintest galaxies, 
 all of the errors are very small.}
-  \label{fig:varap}
+  \label{fig:errors}
 \end{figure}
 
 \begin{thebibliography}{9}
