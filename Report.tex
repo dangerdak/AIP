@@ -24,8 +24,8 @@
 \begin{center}
 
 Astronomical Image Processing: Galaxy Count from a KPNO Deep Optical 
-Image \\begin{equation}8cm]
-Dakshina Scott \\begin{equation}4cm]
+Image \\[8cm]
+Dakshina Scott \\[4cm]
 5th November 2012 \\
 
 \end{center}
@@ -156,9 +156,10 @@ universe is dependent on it's density - it's not necessarily Euclidean,
 so there may be a distance beyond which the structure of the universe 
 influences galaxy counts.
 
-Sandage (1961)\cite{sandage} found that galaxy counts are unlikely 
-to reveal information about the structure of the universe because the 
-differences between flat, open and closed models are too small compared 
+In 1961 Sandage \cite{sandage} found that galaxy counts from the Hale telescope 
+(the world's largest telescope at the time\cite{hale}) were unlikely to 
+reveal information about the structure of the universe because 
+the differences between flat, open and closed models are too small compared 
 to known variations in galaxy distribution. Advances have since been 
 made in astronomical image acquisition, with CCDs allowing much greater 
 quantum efficiency than photographic plates. Eisenstein et al (2001)\cite{eisen} 
@@ -187,8 +188,12 @@ the image processing toolbox installed.
 
 \subsection{Noise Removal}
 
-The image consists of a number of sub-exposures, combined to create one image. This smooths out random fluctuating noise , as inconsistent sources will be faded in the final image.
-However, it can be seen that these sub-exposures don't overlap exactly - as a result there are blank areas in the corners of the image, and around the edges a sharp increase in noise is visible (see figure~ref{fig:edges}). 
+The image consists of a number of sub-exposures, combined to create one 
+image. This smooths out random fluctuating noise , as inconsistent 
+sources will be faded in the final image. However, it can be seen 
+that these sub-exposures don't overlap exactly - as a result there 
+are blank areas in the corners of the image, and around the edges a 
+sharp increase in noise is visible (see figure~ref{fig:edges}). 
 
 \begin{figure}[htb]
   \centering
@@ -202,27 +207,50 @@ The image was cropped before analysis to remove the noisiest areas.
 
 \subsection{Saturated Pixels}
 
-'Blooming' occurs where pixels in the CCD are saturated and overflow to nearby pixels, something which tends to happen mostly in the vertical and horizontal directions, as can be seen in figure~\ref{fig:mask}.
+'Blooming' occurs where pixels in the CCD are saturated and overflow 
+to nearby pixels, something which tends to happen mostly in the vertical
+ and horizontal directions, as is seen in figure~\ref{fig:mask}.
 
 \begin{figure}[htb]
   \centering
   \includegraphics[width=0.5\textwidth]{mask.png}
-  \caption{A bright central source which has 'bloomed' vertically across the image. There are also smaller sources showing the same effect to a lesser extent. Red circles indicate sources which were blacked out prior to analysis. The lines of bloom were also blacked out.}
+  \caption{A bright central source which has 'bloomed' vertically across
+ the image. There are also smaller sources showing the same effect to 
+a lesser extent. Red circles indicate sources which were blacked out 
+prior to analysis. The lines of bloom were also blacked out.}
   \label{fig:mask}
 \end{figure}
 
-The maximum number of electrons each pixel of the CCD can hold was 65,535. For values approaching this the relationship between number of photons received and the number of electrons stored moves further and further from linearity.
-By using multiple shorter exposures any given CCD pixel receives fewer photons, and the number of sources bright enough to cause overflowing was reduced.
-However this effect was still visible in some sources (highlighted in figure~\ref{fig:mask}) . These sources and their bloom are blacked out before analysis.
+The maximum number of electrons each pixel of the CCD can hold is 65,535. 
+For values approaching this the relationship between number of photons 
+received and the number of electrons stored moves further and further 
+from linearity. By using multiple shorter exposures any given CCD pixel 
+receives fewer photons, so the number of sources bright enough to cause 
+overflowing is reduced. However this effect is still visible in some sources 
+(highlighted in figure~\ref{fig:mask}). These sources and their bloom were
+ blacked out before analysis.
 
-A filter was also applied, so that any remaining sources with a maximum pixel value exceeding 50,000 counts are excluded from the survey.
+A filter was also applied, so that any remaining sources with a maximum 
+pixel value exceeding 50,000 counts are excluded from the survey.
 
-On this fully prepared image, two different algorithms for source detection and photometry are applied, each with different limitations. One method uses a fixed aperture, while the other uses the shape and size of each individual source to analyse the correct areas of the image. Both methods are dependent upon finding a suitable value for the source/background threshold.
+On this fully prepared image, two different algorithms for source 
+detection and photometry are applied, each with different limitations. 
+One method uses a fixed aperture, while the other uses the shape and size of 
+each individual source to analyse the correct areas of the image. Both 
+methods are dependent upon finding a suitable value for the 
+source/background threshold.
 
 \subsection{Finding an Upper Limit for Background Brightness}
 
-In order to analyse each source in the image, some criterion must be used to determine how high a photon count must be in order for it to be considered to be coming from a source, rather than a background fluctuation.
-The image was composed mostly of background, with a scattering of sources of varying brightness. Thus finding the mode pixel intensity value of the image would be one way to estimate the background value - doing so produces a value of 3421 counts. However, as the background isn't a constant value, it's clear that much of the background will have values higher than this, and some upper limit of counts must be chosen as the threshold.
+In order to analyse each source in the image, some criterion must be used 
+to determine how high a photon count must be in order for it to be 
+considered to be coming from a source, rather than a background fluctuation.
+The image was composed mostly of background, with a scattering of sources 
+of varying brightness. Thus finding the mode pixel intensity value of the 
+image would be one way to estimate the background value - doing so produces 
+a value of 3421 counts. However, as the background isn't a constant value, 
+it's clear that much of the background will have values higher than this, 
+and some upper limit of counts must be chosen as the threshold.
 Inspecting the distribution of photon counts within the image shows that the frequency of counts per pixel in the region of this modal value was many orders of magnitude greater than that for other values found in the image, and the distribution within this area was approximately Gaussian (see figure~\ref{fig:background}). Thus by finding the mean value within just this bell-shaped peak, and the standard deviation, a threshold value was chosen as three standard deviations above the mean (at a value of 3461 counts).
 
 \begin{figure}[htb]
@@ -321,12 +349,12 @@ Removing the brightest sources (which exhibited a blooming effect) also may have
 
 \section{Conclusion}
 
-js discussed the variable aperture was believed to be much more reliable and accurate in terms of detecting and collecting data on each source in the image.
-While the program using a fixed aperture gives results that are closer to those predicted by theory and found by other surveys, it was suspected that this was in fact misleading - that perhaps the unquantified systematic errors in the fixed aperture actually caused the data to appear closer to the predictions than the true data should be.
+As discussed the variable aperture is believed to be much more reliable and accurate in terms of detecting and collecting data on each source in the image.
+While the program using a fixed aperture gives results that are closer to those predicted by theory and found by other surveys, it is suspected that this is in fact misleading - that perhaps the unquantified systematic errors in the fixed aperture actually caused the data to appear closer to the predictions than the true data should be.
 This fits the results found for the variable aperture, as it suggests high levels of incompleteness starting even at the brighter magnitudes.
 Using a larger number of shorter exposures would improve the results for the brightest sources as less would need to be blacked out before analysis. However, this would reduce completeness at the fainter magnitudes.
 Alternatively using a better CCD (e.g. with a higher bit counter) would vastly improve the results - long exposure times could be used allowing fainter sources to be detected more reliably, without causing so many pixels to saturate and bloom (so the results would also be more reliable for brighter sources).
-Another issue was that the detecting programs can't distinguish between a) stars and galaxies, and b) two overlapping sources. Both issues can be addressed by looking at more detailed photometry for each source - for example, Yasuda et al (2001) use a program called 'PHOTO' which looks for multiple peaks in each object, and 'deblends' them into multiple 'child' objects. This program also able to determine whether a source was likely to be a star or a galaxy based on its surface brightness profile (as described by Blanton et al, 2001).
+Another issue was that the detecting programs can't distinguish between a) stars and galaxies, and b) two overlapping sources. Both issues can be addressed by looking at more detailed photometry for each source - for example, Yasuda et al (2001)\cite{yasuda} use a program called 'PHOTO' which looks for multiple peaks in each object, and 'deblends' them into multiple 'child' objects. This program also able to determine whether a source was likely to be a star or a galaxy based on its surface brightness profile (as described by Blanton et al, 2001\cite{blanton}).
 
 \appendix
 
@@ -334,8 +362,13 @@ Another issue was that the detecting programs can't distinguish between a) stars
 
 The errors in magnitude are excluded from the graphs as they are very small - and in fact, none are large enough to affect the number of galaxies in each magnitude bin. 
 They are approximated by treating the photon counts for each galaxy as a poisson distribution, with the error as the square root of the counts. These errors in counts are then converted into errors in magnitude, and finally added in quadrature with the zeropoint error included in the fits header file, to give the overall errors in magnitude for each galaxy. The largest error was 0.0227. As we are working with magnitude bins of 0.5, it's meaningless to talk about errors to 4 decimal places. To two decimal places, all of the errors are equal to 0.02, the value given for the zeropoint error. 
-Figure - Distribution of errors with magnitude shows that the errors are greatest for the faintest galaxies, but all of the errors are very small.
 
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=0.5\textwidth]{errors.png}
+  \caption{Distribution of errors with magnitude shows that the errors are greatest for the faintest galaxies, but all of the errors are very small.}
+  \label{fig:varap}
+\end{figure}
 
 \begin{thebibliography}{9}
 
@@ -352,16 +385,20 @@ Peacock, J. A., 1999, Cosmological Physics, Cambridge: Cambridge University Pres
 Maddox, S. J. et al, 1990, Galaxy Evolution at Low Redshift, Mon. Not. R. astr. Soc., 247, pp.1-5
 
 \bibitem{yasuda}
-Yasuda, N., et al. 2001, Galaxy Number Counts From The Sloan Digital Sky Survey Commissioning Data, AJ, 122, pp. 1104-1124
+Yasuda, N., et al. 2001, Galaxy Number Counts From The Sloan Digital Sky Survey Commissioning Data, A.J., 122, pp. 1104-1124
 
 \bibitem{eisen}
-Eisenstein, D. J., et al. 2001, Spectroscopic Target Selection For The Sloan Digital Sky Survey: The Luminous Red Galaxy Sample, AJ, 122, pp. 2267-2280
+Eisenstein, D. J., et al. 2001, Spectroscopic Target Selection For The Sloan Digital Sky Survey: The Luminous Red Galaxy Sample, A.J., 122, pp. 2267-2280
 
 \bibitem{blanton}
-Blanton, M. R., et al. 2001, The Luminosity Function Of Galaxies In SDSS Commissioning Data, AJ, 121, pp. 2358-2380
+Blanton, M. R., et al. 2001, The Luminosity Function Of Galaxies In SDSS Commissioning Data, A.J., 121, pp. 2358-2380
 
 \bibitem{sandage}
-Sandage
+Sandage, A., 1961, The Ability of the 200-Inch Telescope to Discriminate Between World Models, Amer. Astr. Soc., 133, pp.335-392
+
+\bibitem{hale}
+Caltech Astronomy, 2012. The 200 Inch Hale Telescope. [online] Available at \url{http://www.astro.caltech.edu/palomar/hale.html}
+[Accessed 4 November 2012].
 
 \end{thebibliography}
 
